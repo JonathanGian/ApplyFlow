@@ -16,13 +16,23 @@ Interactions are tied to an application via a foreign key reference.
 |----------------------|-------------------------------|--------------------------------------------------------|
 | `id`                 | `uuid`                        | Primary key — unique identifier                        |
 | `application_id`     | `uuid`                        | Foreign key pointing to the parent application         |
-| `type`               | `application_interaction_type`| Category of interaction (enum below)                   |
+| `type`               | `application_interaction_type`| Category of interaction (enum)                         |
 | `occurred_at`        | `timestamptz`                 | When the interaction occurred                          |
 | `summary`            | `text`                        | Brief summary of what happened                         |
 | `next_follow_up_at`  | `date`                        | Optional date for your next action                     |
 | `created_at`         | `timestamptz`                 | When the record was created                            |
 
-application_interattion_type = **email**, **call**, **interview**, **message**, **networking**
+### Valid Values for `type`
+
+The `application_interaction_type` enum has the following values:
+
+- `email`  
+- `call`  
+- `interview`  
+- `message`  
+- `networking`
+
+These values represent the nature of the interaction and help categorize logged activity for reporting and filtering.
 
 ---
 
@@ -49,12 +59,13 @@ These relationships and policies are enforced at the database level using `auth.
 
 ## Usage Notes
 
-- The `type` field is free-form text for flexibility; consider normalizing this into an enum in future for stricter schema validation.
-- `next_follow_up_at` enables the creation of “Today” dashboards and follow-up reminders in the UI.
+- The `type` column uses an enum to enforce consistency and allow reliable filtering/sorting in the UI.
+- `next_follow_up_at` enables the creation of “Today” dashboards and follow-up reminders.
 - Summary and timestamps help with activity logging and historical review.
 
 ---
 
 ## Best Practices/Reminders
 
-- Keep documentation updated when schema changes.
+- Keep documentation updated when the schema changes.
+- If new interaction types are introduced, update both the enum and this documentation.
