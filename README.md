@@ -112,7 +112,19 @@ The next development steps include:
 
 4. **Frontend pages** — pipeline view, today’s follow-ups, application details
 
-Once these building blocks are in place, the app becomes a usable job search tool.
+## 📚 Documentation
+
+To help you understand and maintain the database schema, detailed documentation is provided for each major table in the Supabase schema.  
+These files live in the `supabase/docs` folder and explain the structure, relationships, and security policies for each table.
+
+- **[Contacts Documentation](supabase/docs/migrations/Contacts.md)**  
+  Describes the `contacts` table, how it relates to applications, and the RLS policies protecting it.
+
+- **[Applications Documentation](supabase/docs/migrations/Applications.md)**  
+  Describes the `applications` table, its fields, and how it is secured per user.
+
+- **[Interactions Documentation](supabase/docs/migrations/Interactions.md)**  
+  Describes the `interactions` table for logging events, follow-ups, and interaction details.
 
 ---
 
