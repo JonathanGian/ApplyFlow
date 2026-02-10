@@ -1,0 +1,4 @@
+-- Optional seed data for local Supabase.
+-- This file is referenced by `supabase/config.toml` (db.seed.sql_paths).
+--
+-- Add INSERTs here once you have tables/migrations.
