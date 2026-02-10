@@ -4,7 +4,13 @@
   Each interaction is linked to an application and logs a meaningful
   event (email, call, interview, etc.).
 */
-
+CREATE TYPE application_interaction_type AS ENUM (
+  'email',
+  'call',
+  'interview',
+  'message',
+  'networking'
+);
 /*
   1) Create the interactions table
 */
@@ -17,7 +23,7 @@ CREATE TABLE IF NOT EXISTS interactions (
       ON DELETE CASCADE,
 
     -- Interaction details
-    type text NOT NULL,  -- e.g., 'email', 'call', 'interview'
+    type application_interaction_type NOT NULL,  -- e.g., 'email', 'call', 'interview'
     occurred_at timestamptz NOT NULL DEFAULT now(),
     summary text,  -- Brief summary of the interaction
     next_follow_up_at date,  -- Optional follow-up date

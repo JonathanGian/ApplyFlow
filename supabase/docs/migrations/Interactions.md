@@ -12,15 +12,17 @@ Interactions are tied to an application via a foreign key reference.
 
 ## Columns
 
-| Column               | Type             | Description                                            |
-|----------------------|------------------|--------------------------------------------------------|
-| `id`                 | `uuid`           | Primary key — unique identifier                        |
-| `application_id`     | `uuid`           | Foreign key pointing to the parent application         |
-| `type`               | `text`           | Category of interaction (e.g., email, call, interview) |
-| `occurred_at`        | `timestamptz`    | When the interaction occurred                          |
-| `summary`            | `text`           | Brief summary of what happened                         |
-| `next_follow_up_at`  | `date`           | Optional date for your next action                     |
-| `created_at`         | `timestamptz`    | When the record was created                            |
+| Column               | Type                          | Description                                            |
+|----------------------|-------------------------------|--------------------------------------------------------|
+| `id`                 | `uuid`                        | Primary key — unique identifier                        |
+| `application_id`     | `uuid`                        | Foreign key pointing to the parent application         |
+| `type`               | `application_interaction_type`| Category of interaction (enum below)                   |
+| `occurred_at`        | `timestamptz`                 | When the interaction occurred                          |
+| `summary`            | `text`                        | Brief summary of what happened                         |
+| `next_follow_up_at`  | `date`                        | Optional date for your next action                     |
+| `created_at`         | `timestamptz`                 | When the record was created                            |
+
+application_interattion_type = **email**, **call**, **interview**, **message**, **networking**
 
 ---
 
