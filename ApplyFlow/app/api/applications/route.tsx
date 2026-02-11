@@ -1,3 +1,21 @@
+/**
+ * Applications API Route
+ *
+ * Handles CRUD operations for job applications.
+ *
+ * Supported endpoints:
+ * - GET    /api/applications        -> List applications (pagination, filtering, sorting)
+ * - POST   /api/applications        -> Create new application
+ *
+ * Authentication:
+ * - Supports Bearer token (Postman / external clients)
+ * - Supports cookie-based auth (browser sessions)
+ *
+ * Security:
+ * - Enforces RLS via authenticated Supabase client
+ * - Validates enum values at runtime
+ * - Uses allowlists for sorting
+ */
 import { NextResponse } from "next/server";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
@@ -5,9 +23,14 @@ import type { Database } from "@/types/supabase/database.types";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { isApplicationStage } from "@/types/applications/application.stage";
 import type { ApplicationStage } from "@/types/applications/application.stage";
+import type { ApplicationInsert } from "@/types/applications/application.type";
 const MAX_LIMIT = 100;
 const DEFAULT_LIMIT = 20;
 
+/**
+ * Result type returned by getAuthedSupabase.
+ * Ensures route handlers only execute when a user is authenticated.
+ */
 type AuthedSupabaseResult =
   | { supabase: SupabaseClient<Database>; user: User; error: null }
   | { supabase: null; user: null; error: string };
@@ -21,17 +44,34 @@ const ALLOWED_SORT_COLUMNS = new Set([
   "stage",
 ]);
 
+/**
+ * Safely parses a query param into an integer.
+ * Falls back to a default value if parsing fails.
+ */
 function toInt(value: string | null, fallback: number) {
   if (!value) return fallback;
   const n = Number.parseInt(value, 10);
   return Number.isFinite(n) ? n : fallback;
 }
 
+/**
+ * Safely narrows a string query param into a valid ApplicationStage enum.
+ * Returns null if the value is invalid.
+ */
 function asStage(value: string | null): ApplicationStage | null {
   if (!value) return null;
   return isApplicationStage(value) ? value : null;
 }
 
+/**
+ * Resolves an authenticated Supabase client.
+ *
+ * Strategy:
+ * 1. Prefer Bearer token (useful for API testing / Postman)
+ * 2. Fallback to cookie-based session (browser flow)
+ *
+ * Ensures all database queries run under the authenticated user's context.
+ */
 async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult> {
   // 1) Prefer Bearer token (useful for Postman/testing)
   const authHeader = request.headers.get("authorization") ?? "";
@@ -83,6 +123,19 @@ async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult
   return { supabase, user, error: null };
 }
 
+/**
+ * GET /api/applications
+ *
+ * @Returns paginated list of applications for the authenticated user.
+ *
+ * @Params (query params for filtering, sorting, pagination):
+ * - stage   -> filter by enum value
+ * - q       -> text search (company, role_title)
+ * - sort    -> allowed column name
+ * - dir     -> asc | desc
+ * - limit   -> page size (1-100)
+ * - offset  -> pagination offset
+ */
 export async function GET(request: Request) {
   const auth = await getAuthedSupabase(request);
 
@@ -158,4 +211,82 @@ export async function GET(request: Request) {
       total: count ?? 0,
     },
   });
+}
+
+/**
+ * POST /api/applications
+ *
+ * Creates a new application for the authenticated user.
+ *
+ * Required fields:
+ * - company
+ * - role_title
+ *
+ * Optional fields:
+ * - stage (defaults to "Interested")
+ * - notes
+ * - applied_at
+ */
+export async function POST(request: Request) {
+  const auth = await getAuthedSupabase(request);
+
+  if (auth.error || !auth.supabase || !auth.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const supabase = auth.supabase;
+  const user = auth.user;
+
+  let body: unknown;
+
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
+
+  const {
+    company,
+    role_title,
+    stage,
+    notes,
+    applied_at,
+  } = body as Partial<ApplicationInsert>;
+
+  if (!company || typeof company !== "string") {
+    return NextResponse.json({ error: "Company is required" }, { status: 400 });
+  }
+
+  if (!role_title || typeof role_title !== "string") {
+    return NextResponse.json({ error: "Role title is required" }, { status: 400 });
+  }
+
+  if (stage && !isApplicationStage(stage)) {
+    return NextResponse.json({ error: "Invalid stage" }, { status: 400 });
+  }
+
+  const insertPayload: ApplicationInsert = {
+    company: company.trim(),
+    role_title: role_title.trim(),
+    stage: stage ?? "Interested",
+    notes: typeof notes === "string" ? notes : null,
+    applied_at: applied_at ?? null,
+    created_by: user.id,
+  };
+
+  const { data, error } = await supabase
+    .from("applications")
+    .insert(insertPayload)
+    .select()
+    .single();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 400 });
+  }
+
+  return NextResponse.json({ application: data }, { status: 201 });
 }
