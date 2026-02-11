@@ -92,13 +92,13 @@
 							},
 							"response": [
 								{
-									"id": "52299906-a9761f82-388c-4e39-af50-824c3536ad73",
+									"id": "52299906-8d1ec8e3-a418-44f7-ae2c-47bcfbb6026b",
 									"name": "200",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:3000/api/applications",
+											"raw": "http://localhost:3000/api/applications?stage=Applied&q=backend&sort=stage&dir=asc&limit=10&offset=0",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -107,6 +107,38 @@
 											"path": [
 												"api",
 												"applications"
+											],
+											"query": [
+												{
+													"key": "stage",
+													"value": "Applied",
+													"description": "ApplicationStage Enum"
+												},
+												{
+													"key": "q",
+													"value": "backend",
+													"description": "Searches company + role_title using ilike"
+												},
+												{
+													"key": "sort",
+													"value": "stage",
+													"description": "Allowed: created_at, updated_at, company, role_title, stage"
+												},
+												{
+													"key": "dir",
+													"value": "asc",
+													"description": "Any other value behaves like desc"
+												},
+												{
+													"key": "limit",
+													"value": "10",
+													"description": "Clamped to max 100"
+												},
+												{
+													"key": "offset",
+													"value": "0",
+													"description": "Offset pagination"
+												}
 											]
 										}
 									},
@@ -124,7 +156,7 @@
 										},
 										{
 											"key": "Date",
-											"value": "Wed, 11 Feb 2026 10:41:20 GMT"
+											"value": "Wed, 11 Feb 2026 12:20:51 GMT"
 										},
 										{
 											"key": "Connection",
@@ -141,7 +173,7 @@
 									],
 									"cookie": [],
 									"responseTime": null,
-									"body": "{\n    \"applications\": [\n        {\n            \"id\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\",\n            \"created_by\": \"11111111-1111-1111-1111-111111111111\",\n            \"company\": \"Alpha Corp\",\n            \"role_title\": \"Frontend Developer\",\n            \"job_url\": null,\n            \"stage\": \"Interested\",\n            \"applied_at\": null,\n            \"next_follow_up_at\": null,\n            \"salary_min\": null,\n            \"salary_max\": null,\n            \"location\": null,\n            \"remote_type\": null,\n            \"notes\": \"Looking interesting, research and follow up.\",\n            \"created_at\": \"2026-02-11T09:41:56.35099+00:00\",\n            \"updated_at\": \"2026-02-11T09:41:56.35099+00:00\"\n        },\n        {\n            \"id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n            \"created_by\": \"11111111-1111-1111-1111-111111111111\",\n            \"company\": \"Beta LLC\",\n            \"role_title\": \"Backend Engineer\",\n            \"job_url\": null,\n            \"stage\": \"Applied\",\n            \"applied_at\": \"2025-01-15\",\n            \"next_follow_up_at\": \"2025-01-20\",\n            \"salary_min\": null,\n            \"salary_max\": null,\n            \"location\": null,\n            \"remote_type\": null,\n            \"notes\": \"Submitted resume and cover letter.\",\n            \"created_at\": \"2026-02-11T09:41:56.35099+00:00\",\n            \"updated_at\": \"2026-02-11T09:41:56.35099+00:00\"\n        }\n    ],\n    \"page\": {\n        \"limit\": 20,\n        \"offset\": 0,\n        \"sort\": \"created_at\",\n        \"dir\": \"desc\",\n        \"total\": 2\n    }\n}"
+									"body": "{\n    \"applications\": [\n        {\n            \"id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n            \"created_by\": \"11111111-1111-1111-1111-111111111111\",\n            \"company\": \"Beta LLC\",\n            \"role_title\": \"Backend Engineer\",\n            \"job_url\": null,\n            \"stage\": \"Applied\",\n            \"applied_at\": \"2025-01-15\",\n            \"next_follow_up_at\": \"2025-01-20\",\n            \"salary_min\": null,\n            \"salary_max\": null,\n            \"location\": null,\n            \"remote_type\": null,\n            \"notes\": \"Submitted resume and cover letter.\",\n            \"created_at\": \"2026-02-11T09:41:56.35099+00:00\",\n            \"updated_at\": \"2026-02-11T09:41:56.35099+00:00\"\n        }\n    ],\n    \"page\": {\n        \"limit\": 10,\n        \"offset\": 0,\n        \"sort\": \"stage\",\n        \"dir\": \"asc\",\n        \"total\": 1\n    }\n}"
 								}
 							]
 						}
