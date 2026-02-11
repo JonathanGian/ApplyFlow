@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
 
 const MAX_LIMIT = 100;
 const DEFAULT_LIMIT = 20;
+
+type AuthedSupabaseResult =
+  | { supabase: SupabaseClient; user: User; error: null }
+  | { supabase: null; user: null; error: string };
 
 // Allowlist the only columns we permit clients to sort by.
 const ALLOWED_SORT_COLUMNS = new Set([
@@ -20,7 +25,7 @@ function toInt(value: string | null, fallback: number) {
   return Number.isFinite(n) ? n : fallback;
 }
 
-async function getAuthedSupabase(request: Request) {
+async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult> {
   // 1) Prefer Bearer token (useful for Postman/testing)
   const authHeader = request.headers.get("authorization") ?? "";
   const bearerMatch = authHeader.match(/^Bearer\s+(.+)$/i);
@@ -31,7 +36,7 @@ async function getAuthedSupabase(request: Request) {
     const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
     if (!url || !key) {
-      return { supabase: null as const, user: null as const, error: "Server missing Supabase env" };
+      return { supabase: null, user: null, error: "Server missing Supabase env" };
     }
 
     const supabase = createSupabaseClient(url, key);
@@ -42,7 +47,7 @@ async function getAuthedSupabase(request: Request) {
     } = await supabase.auth.getUser(accessToken);
 
     if (error || !user) {
-      return { supabase: null as const, user: null as const, error: "Unauthorized" };
+      return { supabase: null, user: null, error: "Unauthorized" };
     }
 
     // Ensure all DB queries run as this user
@@ -54,7 +59,7 @@ async function getAuthedSupabase(request: Request) {
       },
     });
 
-    return { supabase: authed, user, error: null as const };
+    return { supabase: authed, user, error: null };
   }
 
   // 2) Fallback: cookie-based auth (normal browser app flow)
@@ -65,10 +70,10 @@ async function getAuthedSupabase(request: Request) {
   } = await supabase.auth.getUser();
 
   if (error || !user) {
-    return { supabase: null as const, user: null as const, error: "Unauthorized" };
+    return { supabase: null, user: null, error: "Unauthorized" };
   }
 
-  return { supabase, user, error: null as const };
+  return { supabase, user, error: null };
 }
 
 export async function GET(request: Request) {
