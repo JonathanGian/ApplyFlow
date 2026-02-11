@@ -260,6 +260,406 @@
 									"body": "{\n    \"error\": \"Invalid stage\"\n}"
 								}
 							]
+						},
+						{
+							"name": "Full Create Application",
+							"id": "52299906-455c8b47-20bd-45b9-b439-790bedf752d2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"company\": \"Google\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/applications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"applications"
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "52299906-03b9d48a-1573-4038-9eb5-711ff3a6ec2b",
+									"name": "201",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": \"Google\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Feb 2026 12:57:29 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"application\": {\n        \"id\": \"0992596d-a33e-461b-861b-769958abb5bf\",\n        \"created_by\": \"11111111-1111-1111-1111-111111111111\",\n        \"company\": \"Google\",\n        \"role_title\": \"Software Engineer\",\n        \"job_url\": \"https://careers.google.com/jobs/results/123\",\n        \"stage\": \"Applied\",\n        \"applied_at\": \"2026-02-11\",\n        \"next_follow_up_at\": \"2026-02-20\",\n        \"salary_min\": 70000,\n        \"salary_max\": 90000,\n        \"location\": \"Helsinki\",\n        \"remote_type\": \"Hybrid\",\n        \"notes\": \"Referral from friend\",\n        \"created_at\": \"2026-02-11T12:57:29.047972+00:00\",\n        \"updated_at\": \"2026-02-11T12:57:29.047972+00:00\"\n    }\n}"
+								},
+								{
+									"id": "52299906-8bb25f27-6d73-4d30-ac7e-7827d75b87cd",
+									"name": "400 Salary Error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": \"Google\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 99999,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Feb 2026 12:58:15 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"error\": \"salary_min cannot be greater than salary_max\"\n}"
+								},
+								{
+									"id": "52299906-2ee7c1d4-0221-4aa5-a908-e7637cb2d847",
+									"name": "400 Date Error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": \"Google\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-202\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Feb 2026 12:59:09 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"error\": \"date/time field value out of range: \\\"2026-02-202\\\"\"\n}"
+								},
+								{
+									"id": "52299906-d2d1af6c-cdb7-4938-adce-e1fadbef372b",
+									"name": "400 Invalid Stage",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": \"Google\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applieds\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Feb 2026 12:59:32 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"error\": \"Invalid stage\"\n}"
+								},
+								{
+									"id": "52299906-e32caa76-4712-48d0-bf26-e3e5d2b80919",
+									"name": "400 Company Required",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": ,\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Feb 2026 12:59:59 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"error\": \"Company is required\"\n}"
+								},
+								{
+									"id": "52299906-fd7bd7fb-1baa-475f-8c6d-7c947b1e89f9",
+									"name": "400 Missing Role",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": \"Google\",\n  \"role_title\": ,\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Feb 2026 13:00:33 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"error\": \"Invalid JSON body\"\n}"
+								}
+							]
 						}
 					],
 					"id": "52299906-998d462a-cc83-4310-840c-2dd1c8d5bf67"
