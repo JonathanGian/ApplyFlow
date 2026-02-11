@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/types/supabase/database.types";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
-
+import { isApplicationStage } from "@/types/applications/application.stage";
+import type { ApplicationStage } from "@/types/applications/application.stage";
 const MAX_LIMIT = 100;
 const DEFAULT_LIMIT = 20;
 
 type AuthedSupabaseResult =
-  | { supabase: SupabaseClient; user: User; error: null }
+  | { supabase: SupabaseClient<Database>; user: User; error: null }
   | { supabase: null; user: null; error: string };
 
 // Allowlist the only columns we permit clients to sort by.
@@ -25,6 +27,11 @@ function toInt(value: string | null, fallback: number) {
   return Number.isFinite(n) ? n : fallback;
 }
 
+function asStage(value: string | null): ApplicationStage | null {
+  if (!value) return null;
+  return isApplicationStage(value) ? value : null;
+}
+
 async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult> {
   // 1) Prefer Bearer token (useful for Postman/testing)
   const authHeader = request.headers.get("authorization") ?? "";
@@ -39,7 +46,7 @@ async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult
       return { supabase: null, user: null, error: "Server missing Supabase env" };
     }
 
-    const supabase = createSupabaseClient(url, key);
+    const supabase = createSupabaseClient<Database>(url, key);
 
     const {
       data: { user },
@@ -51,7 +58,7 @@ async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult
     }
 
     // Ensure all DB queries run as this user
-    const authed = createSupabaseClient(url, key, {
+    const authed = createSupabaseClient<Database>(url, key, {
       global: {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -89,7 +96,8 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   // Filters
-  const stage = searchParams.get("stage");
+  const stageParam = searchParams.get("stage");
+  const stage = asStage(stageParam);
   const q = searchParams.get("q");
 
   // Sorting
@@ -107,11 +115,11 @@ export async function GET(request: Request) {
   const offset = Math.max(toInt(searchParams.get("offset"), 0), 0);
 
   // Basic input hardening
-  if (stage && stage.length > 64) {
-    return NextResponse.json({ error: "Invalid stage" }, { status: 400 });
-  }
   if (q && q.length > 100) {
     return NextResponse.json({ error: "Invalid query" }, { status: 400 });
+  }
+  if (stageParam && !stage) {
+    return NextResponse.json({ error: "Invalid stage" }, { status: 400 });
   }
 
   // Build query
