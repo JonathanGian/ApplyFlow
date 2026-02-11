@@ -1,6 +1,7 @@
 "use client";
 
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "@/app/styles/theme";
 
 export default function MuiProvider({
