@@ -8,7 +8,8 @@
     "build": "next build --webpack",
     "build:turbo": "next build --turbo",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "gen:types": "supabase gen types typescript --local > app/types/supabase/database.types.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
