@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "52299906-7584577e-0e68-44be-b38d-12a01c2f7bdd",
+		"name": "ApplyFlow",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Applications",
+			"item": [
+				{
+					"name": "Get data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "56ab83c2-769a-4104-a4d9-1ab7664c87d6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "52299906-1b721fe4-de09-495e-8077-51ac9389f287",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/applications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"applications"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				}
+			],
+			"id": "52299906-48243cf3-d0b0-4d5e-a839-562157501f41"
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f4ceffb3-0d4b-4313-8d51-0f712d796e48",
+								"exec": [
+									"// If the access token exists in environment variables,",
+									"// automatically add it to the Authorization header.",
+									"const token = pm.environment.get(\"access_token\");",
+									"",
+									"if (token) {",
+									"    pm.request.headers.upsert({",
+									"        key: \"Authorization\",",
+									"        value: `Bearer ${token}`",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "af076af3-6cc0-4819-bd03-3f6668fa122b",
+								"exec": [
+									"const json = pm.response.json();",
+									"",
+									"// Save the access token into the environment",
+									"pm.environment.set(\"access_token\", json.access_token);",
+									"",
+									"// (Optional) save the refresh token too",
+									"pm.environment.set(\"refresh_token\", json.refresh_token);",
+									"",
+									"console.log(\"Access token set:\", json.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "52299906-62efd4e7-0c2c-44a5-878a-fc11fb92c93d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{PUBLISHABLE_KEY}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"alice@example.com\",\n  \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:54321/auth/v1/token?grant_type=password&apikey={{PUBLISHABLE_KEY}}",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "54321",
+							"path": [
+								"auth",
+								"v1",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "password"
+								},
+								{
+									"key": "apikey",
+									"value": "{{PUBLISHABLE_KEY}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "52299906-cab1af7c-35d6-4222-ba2f-2227034878de",
+			"description": "##  **Postman — Auth Login Setup**\n\nThis document explains how the **Login** request in Postman works and what the accompanying scripts do.\n\n### **🧩 Purpose**\n\nThe Login request authenticates a user using Supabase’s GoTrue API and saves the returned tokens for use in other requests.\n\nOnce logged in successfully:\n\n- An access_token is captured and stored.\n    \n- That token is then used automatically in other requests via environment variables.\n    \n\n---\n\n## **🚀 Login Request (POST)**\n\n**Endpoint**\n\n``` html\nPOST http://127.0.0.1:54321/auth/v1/token?grant_type=password\n\n ```\n\n#### Headers\n\n```\nContent-Type: application/json\napikey: {{SUPABASE_PUBLISHABLE_KEY}}\nAuthorization: Bearer {{SUPABASE_PUBLISHABLE_KEY}}\n\n ```\n\n#### Body\n\n``` json\n{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}\n\n ```\n\n- {{SUPABASE_PUBLISHABLE_KEY}} is your Supabase project publishable key.\n    \n- {{email}} and {{password}} come from your Postman environment inputs.\n    \n\n---\n\n## **🧠 What the Scripts Do**\n\n**🔽 Test Script (runs after Login response)**\n\nIn the **Tests** tab of the Login request, we store the tokens:\n\n``` javascript\nconst json = pm.response.json();\n\npm.environment.set(\"access_token\", json.access_token);\npm.environment.set(\"refresh_token\", json.refresh_token);\n\n ```\n\n#### Meaning\n\n- access_token — used to authenticate other API calls.\n    \n- refresh_token — can be used later to refresh the session.\n    \n\n---\n\n## **🔁 Auto-Attach Token for Other Requests**\n\nIn the **Pre-request Script** at the collection or environment level:\n\n``` javascript\nconst token = pm.environment.get(\"access_token\");\n\nif (token) {\n    pm.request.headers.upsert({\n        key: \"Authorization\",\n        value: `Bearer ${token}`\n    });\n}\n\n ```\n\n**Meaning:**\n\n- Before _every_ request, Postman checks if access_token is present.\n    \n- If so, it automatically adds:\n    \n\n```\nAuthorization: Bearer {{access_token}}\n\n ```\n\nThis way, all your authenticated API requests use the current token without manual entry.\n\n---\n\n## **🧾 How It Works Together**\n\n1. **Run the Login request**\n    \n    - You provide email/password\n        \n    - Supabase returns an access token\n        \n    - Test script saves it in environment\n        \n    \n2. **Subsequent requests**\n    \n    - Pre-request script attaches the saved token\n        \n    - API routes that require auth will accept it\n        \n    \n3. - Login → get access_token\n        \n    - GET /api/applications → uses session token\n        \n    - POST /api/applications → creates new data\n        \n    - and so on\n        \n\n---\n\n## **🛠 Environment Variables Used**\n\nMake sure your Postman environment includes:\n\n| Variable Name | Description | Example Value |\n| --- | --- | --- |\n| `SUPABASE_URL` | Your Supabase project URL | `http://127.0.0.1:54321` |\n| `SUPABASE_PUBLISHABLE_KEY` | Supabase publishable/public API key for the project | `sb_publishable_XXXXXXXXXXXXXX` |\n| `email` | User email for Login request | `alice@example.com` |\n| `password` | User password for Login request | `password` |\n| `access_token` | Saved after running Login (used for authenticated requests) | _(populated automatically)_ |\n| `refresh_token` | Saved after running Login (optional token refresh) | _(populated automatically)_ |\n\n---\n\n## **📌 Notes**\n\n- Tokens expire — you may need to re-login if access_token becomes invalid.\n    \n- You can extend this setup to refresh tokens automatically.\n    \n- Keep secret keys safe — do _not_ commit environment files with sensitive keys.\n    \n\n---"
+		},
+		{
+			"name": "Post data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"id": "52299906-65788f8d-4c39-473a-afe6-09f371974c79",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": ""
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "6df57c2e-13a3-4a65-bd05-1b561d3174ed",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "15d5cea0-839c-4b6b-b03d-589e8cf16b60",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
