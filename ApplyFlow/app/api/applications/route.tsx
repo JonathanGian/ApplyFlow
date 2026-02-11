@@ -252,9 +252,15 @@ export async function POST(request: Request) {
   const {
     company,
     role_title,
+    job_url,
     stage,
-    notes,
     applied_at,
+    next_follow_up_at,
+    salary_min,
+    salary_max,
+    location,
+    remote_type,
+    notes,
   } = body as Partial<ApplicationInsert>;
 
   if (!company || typeof company !== "string") {
@@ -265,6 +271,52 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Role title is required" }, { status: 400 });
   }
 
+  if (job_url != null && typeof job_url !== "string") {
+    return NextResponse.json({ error: "job_url must be a string" }, { status: 400 });
+  }
+
+  if (applied_at != null && typeof applied_at !== "string") {
+    return NextResponse.json({ error: "applied_at must be a string (YYYY-MM-DD)" }, { status: 400 });
+  }
+
+  if (next_follow_up_at != null && typeof next_follow_up_at !== "string") {
+    return NextResponse.json(
+      { error: "next_follow_up_at must be a string (YYYY-MM-DD)" },
+      { status: 400 },
+    );
+  }
+
+  if (salary_min != null && typeof salary_min !== "number") {
+    return NextResponse.json({ error: "salary_min must be a number" }, { status: 400 });
+  }
+
+  if (salary_max != null && typeof salary_max !== "number") {
+    return NextResponse.json({ error: "salary_max must be a number" }, { status: 400 });
+  }
+
+  if (location != null && typeof location !== "string") {
+    return NextResponse.json({ error: "location must be a string" }, { status: 400 });
+  }
+
+  if (remote_type != null && typeof remote_type !== "string") {
+    return NextResponse.json({ error: "remote_type must be a string" }, { status: 400 });
+  }
+
+  if (notes != null && typeof notes !== "string") {
+    return NextResponse.json({ error: "notes must be a string" }, { status: 400 });
+  }
+
+  if (
+    typeof salary_min === "number" &&
+    typeof salary_max === "number" &&
+    salary_min > salary_max
+  ) {
+    return NextResponse.json(
+      { error: "salary_min cannot be greater than salary_max" },
+      { status: 400 },
+    );
+  }
+
   if (stage && !isApplicationStage(stage)) {
     return NextResponse.json({ error: "Invalid stage" }, { status: 400 });
   }
@@ -272,9 +324,16 @@ export async function POST(request: Request) {
   const insertPayload: ApplicationInsert = {
     company: company.trim(),
     role_title: role_title.trim(),
+    job_url: typeof job_url === "string" ? job_url.trim() : null,
     stage: stage ?? "Interested",
+    applied_at: typeof applied_at === "string" ? applied_at : null,
+    next_follow_up_at:
+      typeof next_follow_up_at === "string" ? next_follow_up_at : null,
+    salary_min: typeof salary_min === "number" ? salary_min : null,
+    salary_max: typeof salary_max === "number" ? salary_max : null,
+    location: typeof location === "string" ? location.trim() : null,
+    remote_type: typeof remote_type === "string" ? remote_type.trim() : null,
     notes: typeof notes === "string" ? notes : null,
-    applied_at: applied_at ?? null,
     created_by: user.id,
   };
 
