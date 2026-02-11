@@ -269,7 +269,28 @@
 							},
 							"request": {
 								"method": "POST",
-								"header": []
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"company\": \"Google\",\n  \"role_title\": \"Software Engineer\",\n  \"stage\": \"Applied\",\n  \"notes\": \"Referral from friend\",\n  \"applied_at\": \"2026-02-11\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/applications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"applications"
+									]
+								}
 							},
 							"response": []
 						}
