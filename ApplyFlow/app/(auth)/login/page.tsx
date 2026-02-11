@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Alert,
@@ -11,11 +11,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { createBrowserClient } from "@/lib/supabase/client";
+import { getBrowserClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const router = useRouter();
-  const supabase = useMemo(() => createBrowserClient(), []);
 
   const [email, setEmail] = useState("alice@example.com");
   const [password, setPassword] = useState("password");
@@ -26,6 +25,8 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
+    const supabase = getBrowserClient();
 
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
