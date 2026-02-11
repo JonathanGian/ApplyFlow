@@ -1,7 +1,7 @@
 import { createBrowserClient } from "@supabase/ssr";
 import type { SupabaseClient } from "@supabase/supabase-js";
-
-let _browserClient: SupabaseClient | null = null;
+import type { Database } from "@/app/types/supabase/database.types";
+let _browserClient: SupabaseClient<Database> | null = null;
 
 export function getBrowserClient() {
   if (_browserClient) return _browserClient;
@@ -13,6 +13,6 @@ export function getBrowserClient() {
     throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
   }
 
-  _browserClient = createBrowserClient(url, key);
+  _browserClient = createBrowserClient<Database>(url, key);
   return _browserClient;
 }
