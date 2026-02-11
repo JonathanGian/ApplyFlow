@@ -45,7 +45,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3000/api/applications?stage&q&sort&dir&limit&offset",
+									"raw": "http://localhost:3000/api/applications?stage=Applied&q=backend&sort=stage&dir=asc&limit=10&offset=0",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -58,39 +58,33 @@
 									"query": [
 										{
 											"key": "stage",
-											"value": null,
-											"description": "ApplicationStage Enum",
-											"type": "text"
+											"value": "Applied",
+											"description": "ApplicationStage Enum"
 										},
 										{
 											"key": "q",
-											"value": null,
-											"description": "Searches company + role_title using ilike",
-											"type": "text"
+											"value": "backend",
+											"description": "Searches company + role_title using ilike"
 										},
 										{
 											"key": "sort",
-											"value": null,
-											"description": "Allowed: created_at, updated_at, company, role_title, stage",
-											"type": "text"
+											"value": "stage",
+											"description": "Allowed: created_at, updated_at, company, role_title, stage"
 										},
 										{
 											"key": "dir",
-											"value": null,
-											"description": "Any other value behaves like desc",
-											"type": "text"
+											"value": "asc",
+											"description": "Any other value behaves like desc"
 										},
 										{
 											"key": "limit",
-											"value": null,
-											"description": "Clamped to max 100",
-											"type": "text"
+											"value": "10",
+											"description": "Clamped to max 100"
 										},
 										{
 											"key": "offset",
-											"value": null,
-											"description": "Offset pagination",
-											"type": "text"
+											"value": "0",
+											"description": "Offset pagination"
 										}
 									]
 								},
