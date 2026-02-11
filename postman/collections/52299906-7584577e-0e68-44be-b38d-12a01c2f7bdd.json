@@ -262,13 +262,13 @@
 							]
 						},
 						{
-							"name": "New Request",
+							"name": "Create Application",
 							"id": "52299906-455c8b47-20bd-45b9-b439-790bedf752d2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": []
 							},
 							"response": []
