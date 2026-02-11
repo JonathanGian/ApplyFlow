@@ -262,7 +262,7 @@
 							]
 						},
 						{
-							"name": "Create Application",
+							"name": "Full Create Application",
 							"id": "52299906-455c8b47-20bd-45b9-b439-790bedf752d2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
