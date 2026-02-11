@@ -38,3 +38,53 @@ SELECT
   applications.role_title
 FROM applications
 JOIN profiles ON profiles.id = applications.created_by;
+```
+
+This lets you show a user’s name or avatar alongside application data without having to rely on the internal auth.users table.
+
+## Row Level Security(RLS)
+
+To protect user data and ensure isolation:
+
+- RLS is enabled on the profiles table.
+
+- Only the owning user can read or update their own profile.
+
+### RLS Policies
+
+#### SELECT Policy
+
+Users may select only the profile where id = auth.uid().
+
+##### UPDATE Policy
+
+Users may update only their own profile, enforcing both read and write safety.
+
+These policies are implemented in the corresponding database migration.
+
+## Usage Notes
+
+- The profiles table is recommended for any user metadata your app needs beyond authentication (e.g., display preferences, bio, location).
+
+- If a user is deleted in Supabase Auth, the corresponding profile should be deleted automatically (ON DELETE CASCADE).
+
+- You can add custom fields over time (e.g., timezone, onboarding status, settings) without modifying the auth.users schema.
+
+### Example Usage in the App
+
+```ts
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('*')
+  .eq('id', user.id)
+  .single();
+  ```
+
+### Displaying user info in UI
+
+```tsx
+Welcome, {profile.full_name}!
+<img src={profile.avatar_url} alt="User avatar" />
+```
+
+This allows user-friendly pages and dropdowns without exposing sensitive auth internals.
