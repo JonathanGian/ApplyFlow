@@ -272,7 +272,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"company\": \"Google\",\n  \"role_title\": \"Software Engineer\",\n  \"stage\": \"Applied\",\n  \"notes\": \"Referral from friend\",\n  \"applied_at\": \"2026-02-11\"\n}",
+									"raw": "{\n        \"company\": \"Nvidea\",\n        \"role_title\": \"Fullstack Developer\",\n        \"job_url\": \"www.example.com\",\n        \"stage\": \"Applied\",\n        \"applied_at\": \"2026-02-11\",\n        \"next_follow_up_at\": \"2026-02-25\",\n        \"salary_min\": 2000,\n        \"salary_max\": 3000,\n        \"location\": \"Espoo\",\n        \"remote_type\": \"true\",\n        \"notes\": \"Referral from friend\"\n    }",
 									"options": {
 										"raw": {
 											"language": "json"
