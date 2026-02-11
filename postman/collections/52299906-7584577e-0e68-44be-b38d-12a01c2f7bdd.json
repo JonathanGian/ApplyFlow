@@ -45,7 +45,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3000/api/applications",
+									"raw": "http://localhost:3000/api/applications?stage&q&sort&dir&limit&offset",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -54,6 +54,44 @@
 									"path": [
 										"api",
 										"applications"
+									],
+									"query": [
+										{
+											"key": "stage",
+											"value": null,
+											"description": "ApplicationStage Enum",
+											"type": "text"
+										},
+										{
+											"key": "q",
+											"value": null,
+											"description": "Searches company + role_title using ilike",
+											"type": "text"
+										},
+										{
+											"key": "sort",
+											"value": null,
+											"description": "Allowed: created_at, updated_at, company, role_title, stage",
+											"type": "text"
+										},
+										{
+											"key": "dir",
+											"value": null,
+											"description": "Any other value behaves like desc",
+											"type": "text"
+										},
+										{
+											"key": "limit",
+											"value": null,
+											"description": "Clamped to max 100",
+											"type": "text"
+										},
+										{
+											"key": "offset",
+											"value": null,
+											"description": "Offset pagination",
+											"type": "text"
+										}
 									]
 								},
 								"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
