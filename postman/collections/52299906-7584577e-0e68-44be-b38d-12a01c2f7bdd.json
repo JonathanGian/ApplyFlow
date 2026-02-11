@@ -7,55 +7,114 @@
 	},
 	"item": [
 		{
-			"name": "Applications",
+			"name": "API",
 			"item": [
 				{
-					"name": "Get data",
-					"event": [
+					"name": "Applications",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"id": "56ab83c2-769a-4104-a4d9-1ab7664c87d6",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"id": "52299906-1b721fe4-de09-495e-8077-51ac9389f287",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"name": "Get data",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"id": "56ab83c2-769a-4104-a4d9-1ab7664c87d6",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"id": "52299906-1b721fe4-de09-495e-8077-51ac9389f287",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/applications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"applications"
+									]
+								},
+								"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+							},
+							"response": [
+								{
+									"id": "52299906-a9761f82-388c-4e39-af50-824c3536ad73",
+									"name": "200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/applications",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Feb 2026 10:41:20 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"applications\": [\n        {\n            \"id\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\",\n            \"created_by\": \"11111111-1111-1111-1111-111111111111\",\n            \"company\": \"Alpha Corp\",\n            \"role_title\": \"Frontend Developer\",\n            \"job_url\": null,\n            \"stage\": \"Interested\",\n            \"applied_at\": null,\n            \"next_follow_up_at\": null,\n            \"salary_min\": null,\n            \"salary_max\": null,\n            \"location\": null,\n            \"remote_type\": null,\n            \"notes\": \"Looking interesting, research and follow up.\",\n            \"created_at\": \"2026-02-11T09:41:56.35099+00:00\",\n            \"updated_at\": \"2026-02-11T09:41:56.35099+00:00\"\n        },\n        {\n            \"id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n            \"created_by\": \"11111111-1111-1111-1111-111111111111\",\n            \"company\": \"Beta LLC\",\n            \"role_title\": \"Backend Engineer\",\n            \"job_url\": null,\n            \"stage\": \"Applied\",\n            \"applied_at\": \"2025-01-15\",\n            \"next_follow_up_at\": \"2025-01-20\",\n            \"salary_min\": null,\n            \"salary_max\": null,\n            \"location\": null,\n            \"remote_type\": null,\n            \"notes\": \"Submitted resume and cover letter.\",\n            \"created_at\": \"2026-02-11T09:41:56.35099+00:00\",\n            \"updated_at\": \"2026-02-11T09:41:56.35099+00:00\"\n        }\n    ],\n    \"page\": {\n        \"limit\": 20,\n        \"offset\": 0,\n        \"sort\": \"created_at\",\n        \"dir\": \"desc\",\n        \"total\": 2\n    }\n}"
 								}
 							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/applications",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"applications"
-							]
-						},
-						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
-					},
-					"response": []
+						}
+					],
+					"id": "52299906-998d462a-cc83-4310-840c-2dd1c8d5bf67"
 				}
 			],
 			"id": "52299906-48243cf3-d0b0-4d5e-a839-562157501f41"
