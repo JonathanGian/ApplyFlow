@@ -260,6 +260,18 @@
 									"body": "{\n    \"error\": \"Invalid stage\"\n}"
 								}
 							]
+						},
+						{
+							"name": "New Request",
+							"id": "52299906-455c8b47-20bd-45b9-b439-790bedf752d2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "52299906-998d462a-cc83-4310-840c-2dd1c8d5bf67"
