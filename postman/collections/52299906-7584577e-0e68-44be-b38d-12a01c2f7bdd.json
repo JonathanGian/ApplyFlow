@@ -475,6 +475,67 @@
 									"cookie": [],
 									"responseTime": null,
 									"body": "{\n    \"error\": \"date/time field value out of range: \\\"2026-02-202\\\"\"\n}"
+								},
+								{
+									"id": "52299906-d2d1af6c-cdb7-4938-adce-e1fadbef372b",
+									"name": "Invalid Stage 400",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": \"Google\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applieds\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Feb 2026 12:59:32 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"error\": \"Invalid stage\"\n}"
 								}
 							]
 						}
