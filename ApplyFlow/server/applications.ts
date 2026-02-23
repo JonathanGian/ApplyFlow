@@ -7,6 +7,7 @@ import type {
   ApplicationInsert,
   ApplicationRow,
   ApplicationStage,
+  ApplicationUpdate,
 } from "@/types/applications/application.type";
 
 /**
@@ -152,4 +153,89 @@ export async function createApplication(
   }
 
   return data as ApplicationRow;
+}
+
+/**
+ * Fetches a single application by id, scoped to the authenticated owner.
+ *
+ * @param supabase - An authenticated Supabase client (RLS enforced).
+ * @param userId - Authenticated user's ID.
+ * @param id - Application id.
+ * @returns The application row.
+ */
+export async function getApplicationById(
+  supabase: SupabaseClient<Database>,
+  userId: string,
+  id: string,
+): Promise<ApplicationRow | null> {
+  const { data, error } = await supabase
+    .from("applications")
+    .select("*")
+    .eq("id", id)
+    .eq("created_by", userId)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data ?? null) as ApplicationRow | null;
+}
+
+/**
+ * Updates an application (partial update), scoped to the authenticated owner.
+ *
+ * @param supabase - An authenticated Supabase client (RLS enforced).
+ * @param userId - Authenticated user's ID.
+ * @param id - Application id.
+ * @param patch - Update payload (validated/sanitized by caller).
+ * @returns The updated application row.
+ */
+export async function updateApplication(
+  supabase: SupabaseClient<Database>,
+  userId: string,
+  id: string,
+  patch: ApplicationUpdate,
+): Promise<ApplicationRow | null> {
+  const { data, error } = await supabase
+    .from("applications")
+    .update(patch)
+    .eq("id", id)
+    .eq("created_by", userId)
+    .select()
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data ?? null) as ApplicationRow | null;
+}
+
+/**
+ * Deletes an application, scoped to the authenticated owner.
+ *
+ * @param supabase - An authenticated Supabase client (RLS enforced).
+ * @param userId - Authenticated user's ID.
+ * @param id - Application id.
+ * @returns The deleted application row (if found), otherwise null.
+ */
+export async function deleteApplication(
+  supabase: SupabaseClient<Database>,
+  userId: string,
+  id: string,
+): Promise<ApplicationRow | null> {
+  const { data, error } = await supabase
+    .from("applications")
+    .delete()
+    .eq("id", id)
+    .eq("created_by", userId)
+    .select()
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data ?? null) as ApplicationRow | null;
 }
