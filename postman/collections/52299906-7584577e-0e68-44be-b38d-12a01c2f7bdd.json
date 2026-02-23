@@ -662,14 +662,46 @@
 							]
 						},
 						{
-							"name": "Update",
+							"name": "Update Application",
 							"id": "52299906-9a26dbe0-c24b-4607-959b-bdde21715552",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
-								"header": []
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"company\": \"Google Test\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/applications/{{application_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"applications",
+										"{{application_id}}"
+									]
+								}
 							},
 							"response": []
 						}
