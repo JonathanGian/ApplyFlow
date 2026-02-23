@@ -15,7 +15,6 @@
  * - Scopes all operations to the authenticated owner (`created_by`)
  */
 
-import { NextResponse } from "next/server";
 import { requireAuthedSupabase } from "@/server/auth";
 
 import { isApplicationStage } from "@/types/applications/application.stage";
