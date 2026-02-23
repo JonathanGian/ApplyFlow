@@ -1221,7 +1221,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "",
+									"raw": "{\n    \"name\": \"Recruiter Name\",\n    \"email\": \"recruiter@company.com\",\n    \"phone\": 123456789,\n    \"linkedin_url\": \"www.example.com\",\n    \"role\": \"Recruiter\",\n    \"notes\": \"None for now\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1229,7 +1229,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3000/api/applications/:id/contacts",
+									"raw": "http://localhost:3000/api/applications/:applicationId/contacts/:contactId",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1238,13 +1238,18 @@
 									"path": [
 										"api",
 										"applications",
-										":id",
-										"contacts"
+										":applicationId",
+										"contacts",
+										":contactId"
 									],
 									"variable": [
 										{
-											"key": "id",
-											"value": ""
+											"key": "applicationId",
+											"value": "{{application_id_2}}"
+										},
+										{
+											"key": "contactId",
+											"value": "{{contact_id}}"
 										}
 									]
 								}
