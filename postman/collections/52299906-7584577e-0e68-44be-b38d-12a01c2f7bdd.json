@@ -829,6 +829,18 @@
 									"body": "{\n    \"error\": \"Invalid JSON body\"\n}"
 								}
 							]
+						},
+						{
+							"name": "Delete One Application",
+							"id": "52299906-4ce36695-ac82-4b48-b07a-65a28a0670b6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "52299906-998d462a-cc83-4310-840c-2dd1c8d5bf67"
