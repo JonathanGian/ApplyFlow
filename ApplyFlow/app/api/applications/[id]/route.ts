@@ -27,6 +27,8 @@ import {
   updateApplication,
 } from "@/server/applications";
 
+import { jsonError, jsonOk, ErrorCodes } from "@/server/http";
+
 /**
  * GET /api/applications/:id
  *
@@ -46,20 +48,20 @@ export async function GET(
   try {
     ({ supabase, user } = await requireAuthedSupabase(_request));
   } catch {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return jsonError(ErrorCodes.UNAUTHORIZED, "Unauthorized", 401);
   }
 
   try {
     const application = await getApplicationById(supabase, user.id, id);
 
     if (!application) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return jsonError(ErrorCodes.NOT_FOUND, "Application not found", 404);
     }
 
-    return NextResponse.json({ application });
+    return jsonOk({ application });
   } catch (e) {
     const message = e instanceof Error ? e.message : "Unknown error";
-    return NextResponse.json({ error: message }, { status: 400 });
+    return jsonError(ErrorCodes.INTERNAL_ERROR, message, 400);
   }
 }
 
@@ -84,7 +86,7 @@ export async function PATCH(
   try {
     ({ supabase, user } = await requireAuthedSupabase(request));
   } catch {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return jsonError(ErrorCodes.UNAUTHORIZED, "Unauthorized", 401);
   }
 
   let body: unknown;
@@ -92,11 +94,11 @@ export async function PATCH(
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "Invalid JSON body", 400);
   }
 
   if (!body || typeof body !== "object") {
-    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "Invalid request body", 400);
   }
 
   const {
@@ -115,52 +117,54 @@ export async function PATCH(
 
   // Validate types (only when provided)
   if (company != null && typeof company !== "string") {
-    return NextResponse.json({ error: "company must be a string" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "company must be a string", 400);
   }
   if (role_title != null && typeof role_title !== "string") {
-    return NextResponse.json({ error: "role_title must be a string" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "role_title must be a string", 400);
   }
   if (job_url != null && typeof job_url !== "string") {
-    return NextResponse.json({ error: "job_url must be a string" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "job_url must be a string", 400);
   }
   if (applied_at != null && typeof applied_at !== "string") {
-    return NextResponse.json({ error: "applied_at must be a string (YYYY-MM-DD)" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "applied_at must be a string (YYYY-MM-DD)", 400);
   }
   if (next_follow_up_at != null && typeof next_follow_up_at !== "string") {
-    return NextResponse.json(
-      { error: "next_follow_up_at must be a string (YYYY-MM-DD)" },
-      { status: 400 },
+    return jsonError(
+      ErrorCodes.VALIDATION_ERROR,
+      "next_follow_up_at must be a string (YYYY-MM-DD)",
+      400,
     );
   }
   if (salary_min != null && typeof salary_min !== "number") {
-    return NextResponse.json({ error: "salary_min must be a number" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "salary_min must be a number", 400);
   }
   if (salary_max != null && typeof salary_max !== "number") {
-    return NextResponse.json({ error: "salary_max must be a number" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "salary_max must be a number", 400);
   }
   if (location != null && typeof location !== "string") {
-    return NextResponse.json({ error: "location must be a string" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "location must be a string", 400);
   }
   if (remote_type != null && typeof remote_type !== "string") {
-    return NextResponse.json({ error: "remote_type must be a string" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "remote_type must be a string", 400);
   }
   if (notes != null && typeof notes !== "string") {
-    return NextResponse.json({ error: "notes must be a string" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "notes must be a string", 400);
   }
   if (stage != null && typeof stage !== "string") {
-    return NextResponse.json({ error: "stage must be a string" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "stage must be a string", 400);
   }
   if (typeof stage === "string" && !isApplicationStage(stage)) {
-    return NextResponse.json({ error: "Invalid stage" }, { status: 400 });
+    return jsonError(ErrorCodes.VALIDATION_ERROR, "Invalid stage", 400);
   }
   if (
     typeof salary_min === "number" &&
     typeof salary_max === "number" &&
     salary_min > salary_max
   ) {
-    return NextResponse.json(
-      { error: "salary_min cannot be greater than salary_max" },
-      { status: 400 },
+    return jsonError(
+      ErrorCodes.VALIDATION_ERROR,
+      "salary_min cannot be greater than salary_max",
+      400,
     );
   }
 
@@ -180,9 +184,10 @@ export async function PATCH(
   if (typeof notes === "string") patch.notes = notes;
 
   if (Object.keys(patch).length === 0) {
-    return NextResponse.json(
-      { error: "No valid fields provided" },
-      { status: 400 },
+    return jsonError(
+      ErrorCodes.VALIDATION_ERROR,
+      "No valid fields provided",
+      400,
     );
   }
 
@@ -190,13 +195,13 @@ export async function PATCH(
     const updated = await updateApplication(supabase, user.id, id, patch);
 
     if (!updated) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return jsonError(ErrorCodes.NOT_FOUND, "Application not found", 404);
     }
 
-    return NextResponse.json({ application: updated });
+    return jsonOk({ application: updated });
   } catch (e) {
     const message = e instanceof Error ? e.message : "Unknown error";
-    return NextResponse.json({ error: message }, { status: 400 });
+    return jsonError(ErrorCodes.INTERNAL_ERROR, message, 400);
   }
 }
 
@@ -219,19 +224,19 @@ export async function DELETE(
   try {
     ({ supabase, user } = await requireAuthedSupabase(request));
   } catch {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return jsonError(ErrorCodes.UNAUTHORIZED, "Unauthorized", 401);
   }
 
   try {
     const deleted = await deleteApplication(supabase, user.id, id);
 
     if (!deleted) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return jsonError(ErrorCodes.NOT_FOUND, "Application not found", 404);
     }
 
-    return NextResponse.json({ application: deleted });
+    return jsonOk({ application: deleted });
   } catch (e) {
     const message = e instanceof Error ? e.message : "Unknown error";
-    return NextResponse.json({ error: message }, { status: 400 });
+    return jsonError(ErrorCodes.INTERNAL_ERROR, message, 400);
   }
 }
