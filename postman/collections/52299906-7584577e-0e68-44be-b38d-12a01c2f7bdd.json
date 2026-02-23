@@ -1176,7 +1176,7 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
+								"method": "DELETE",
 								"header": [],
 								"url": {
 									"raw": "http://localhost:3000/api/applications/:id/contacts/:contactId",
@@ -1194,19 +1194,83 @@
 									],
 									"variable": [
 										{
-											"id": "9d48addb-b2cb-400e-9835-087d0e62394c",
 											"key": "id",
 											"value": "{{application_id_2}}"
 										},
 										{
-											"id": "509032cf-e947-4bf5-8465-cfaea84f6ada",
 											"key": "contactId",
-											"value": "{{contact_id}}"
+											"value": "{{contact_id2}}"
 										}
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"id": "52299906-04948976-1c3e-4e75-9577-d93e67fefe78",
+									"name": "Get One Contact Copy",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/applications/:id/contacts/:contactId",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications",
+												":id",
+												"contacts",
+												":contactId"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{application_id_2}}"
+												},
+												{
+													"key": "contactId",
+													"value": "{{contact_id2}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 23 Feb 2026 14:43:15 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"contact\": {\n        \"id\": \"bbbbbbbb-0000-0000-0000-bbbbbbbb0000\",\n        \"application_id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n        \"name\": \"Bob Manager\",\n        \"email\": \"bob.manager@betallc.com\",\n        \"phone\": \"555-0111\",\n        \"linkedin_url\": \"https://linkedin.com/in/bob-mgr\",\n        \"role\": \"Hiring Manager\",\n        \"notes\": \"Main contact at Beta LLC\",\n        \"created_at\": \"2026-02-11T09:41:56.35099+00:00\"\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Create Contact",
