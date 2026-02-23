@@ -703,7 +703,132 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"id": "52299906-a92fca0c-3f38-4d0f-9b23-acba8c92a3a0",
+									"name": "200",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": \"Google Test\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications/{{application_id}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications",
+												"{{application_id}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 23 Feb 2026 12:14:59 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"application\": {\n        \"id\": \"64183ce2-de4a-478e-964a-af0076b50b15\",\n        \"created_by\": \"11111111-1111-1111-1111-111111111111\",\n        \"company\": \"Google Test\",\n        \"role_title\": \"Software Engineer\",\n        \"job_url\": \"https://careers.google.com/jobs/results/123\",\n        \"stage\": \"Applied\",\n        \"applied_at\": \"2026-02-11\",\n        \"next_follow_up_at\": \"2026-02-20\",\n        \"salary_min\": 70000,\n        \"salary_max\": 90000,\n        \"location\": \"Helsinki\",\n        \"remote_type\": \"Hybrid\",\n        \"notes\": \"Referral from friend\",\n        \"created_at\": \"2026-02-11T12:50:21.933247+00:00\",\n        \"updated_at\": \"2026-02-11T12:50:21.933247+00:00\"\n    }\n}"
+								},
+								{
+									"id": "52299906-09c9321e-2fce-4060-8572-193c2e6dcc04",
+									"name": "400",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications/{{application_id}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications",
+												"{{application_id}}"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 23 Feb 2026 12:16:18 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"error\": \"Invalid JSON body\"\n}"
+								}
+							]
 						}
 					],
 					"id": "52299906-998d462a-cc83-4310-840c-2dd1c8d5bf67"
