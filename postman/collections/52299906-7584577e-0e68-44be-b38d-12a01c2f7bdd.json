@@ -847,7 +847,7 @@
 										}
 									]
 								},
-								"method": "PATCH",
+								"method": "DELETE",
 								"header": [],
 								"body": {
 									"mode": "raw",
@@ -869,10 +869,10 @@
 							},
 							"response": [
 								{
-									"id": "52299906-5613132e-7f2a-4830-849d-fde282e50f77",
+									"id": "52299906-f2fd8a66-c8fe-493d-bdf6-afe301e8fbc6",
 									"name": "New Request",
 									"originalRequest": {
-										"method": "PATCH",
+										"method": "DELETE",
 										"header": [],
 										"body": {
 											"mode": "raw",
@@ -892,8 +892,8 @@
 											]
 										}
 									},
-									"status": "Bad Request",
-									"code": 400,
+									"status": "OK",
+									"code": 200,
 									"_postman_previewlanguage": null,
 									"header": [
 										{
@@ -906,7 +906,7 @@
 										},
 										{
 											"key": "Date",
-											"value": "Mon, 23 Feb 2026 12:17:22 GMT"
+											"value": "Mon, 23 Feb 2026 12:18:29 GMT"
 										},
 										{
 											"key": "Connection",
@@ -923,7 +923,7 @@
 									],
 									"cookie": [],
 									"responseTime": null,
-									"body": "{\n    \"error\": \"invalid input syntax for type uuid: \\\"{{application_id_2}}\\\"\"\n}"
+									"body": "{\n    \"application\": {\n        \"id\": \"f9c44040-f668-4c97-8b13-42abc3d0ff21\",\n        \"created_by\": \"11111111-1111-1111-1111-111111111111\",\n        \"company\": \"Google\",\n        \"role_title\": \"Software Engineer\",\n        \"job_url\": null,\n        \"stage\": \"Applied\",\n        \"applied_at\": \"2026-02-11\",\n        \"next_follow_up_at\": null,\n        \"salary_min\": null,\n        \"salary_max\": null,\n        \"location\": null,\n        \"remote_type\": null,\n        \"notes\": \"Referral from friend\",\n        \"created_at\": \"2026-02-11T12:46:22.079337+00:00\",\n        \"updated_at\": \"2026-02-11T12:46:22.079337+00:00\"\n    }\n}"
 								}
 							]
 						}
