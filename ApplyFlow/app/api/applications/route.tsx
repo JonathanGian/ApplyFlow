@@ -24,6 +24,12 @@ import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { isApplicationStage } from "@/types/applications/application.stage";
 import type { ApplicationStage } from "@/types/applications/application.stage";
 import type { ApplicationInsert } from "@/types/applications/application.type";
+import {
+  createApplication,
+  listApplications,
+  type ApplicationSortColumn,
+  type SortDirection,
+} from "@/server/applications";
 const MAX_LIMIT = 100;
 const DEFAULT_LIMIT = 20;
 
@@ -126,15 +132,9 @@ async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult
 /**
  * GET /api/applications
  *
- * @Returns paginated list of applications for the authenticated user.
+ * @returns paginated list of applications for the authenticated user.
  *
- * @Params (query params for filtering, sorting, pagination):
- * - stage   -> filter by enum value
- * - q       -> text search (company, role_title)
- * - sort    -> allowed column name
- * - dir     -> asc | desc
- * - limit   -> page size (1-100)
- * - offset  -> pagination offset
+ * @param request - Incoming request with query parameters.
  */
 export async function GET(request: Request) {
   const auth = await getAuthedSupabase(request);
@@ -175,42 +175,31 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Invalid stage" }, { status: 400 });
   }
 
-  // Build query
-  let query = supabase
-    .from("applications")
-    // exact count is helpful for pagination UI
-    .select("*", { count: "exact" })
-    .eq("created_by", user.id);
-
-  if (stage) {
-    query = query.eq("stage", stage);
-  }
-
-  // Simple search across company + role_title
-  if (q && q.trim()) {
-    const needle = q.trim().replace(/[,]/g, " ");
-    query = query.or(`company.ilike.*${needle}*,role_title.ilike.*${needle}*`);
-  }
-
-  // Order + range (offset pagination)
-  query = query.order(sort, { ascending }).range(offset, offset + limit - 1);
-
-  const { data, error, count } = await query;
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
-  }
-
-  return NextResponse.json({
-    applications: data ?? [],
-    page: {
+  // Build query (via DAL)
+  try {
+    const { applications, total } = await listApplications(supabase, user.id, {
+      stage,
+      q,
+      sort: sort as ApplicationSortColumn,
+      dir: (ascending ? "asc" : "desc") as SortDirection,
       limit,
       offset,
-      sort,
-      dir: ascending ? "asc" : "desc",
-      total: count ?? 0,
-    },
-  });
+    });
+
+    return NextResponse.json({
+      applications,
+      page: {
+        limit,
+        offset,
+        sort,
+        dir: ascending ? "asc" : "desc",
+        total,
+      },
+    });
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Unknown error";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
 }
 
 /**
@@ -321,7 +310,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid stage" }, { status: 400 });
   }
 
-  const insertPayload: ApplicationInsert = {
+  const insertPayload: Omit<ApplicationInsert, "created_by"> = {
     company: company.trim(),
     role_title: role_title.trim(),
     job_url: typeof job_url === "string" ? job_url.trim() : null,
@@ -334,18 +323,17 @@ export async function POST(request: Request) {
     location: typeof location === "string" ? location.trim() : null,
     remote_type: typeof remote_type === "string" ? remote_type.trim() : null,
     notes: typeof notes === "string" ? notes : null,
-    created_by: user.id,
   };
 
-  const { data, error } = await supabase
-    .from("applications")
-    .insert(insertPayload)
-    .select()
-    .single();
+  try {
+    const application = await createApplication(supabase, user.id, {
+      ...insertPayload,
+      created_by: undefined as never,
+    });
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    return NextResponse.json({ application }, { status: 201 });
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Unknown error";
+    return NextResponse.json({ error: message }, { status: 400 });
   }
-
-  return NextResponse.json({ application: data }, { status: 201 });
 }
