@@ -16,102 +16,16 @@
  */
 
 import { NextResponse } from "next/server";
-import { createClient as createSupabaseJsClient, type SupabaseClient, type User } from "@supabase/supabase-js";
+import { requireAuthedSupabase } from "@/server/auth";
 
-import { createClient as createServerClient } from "@/lib/supabase/server";
 import { isApplicationStage } from "@/types/applications/application.stage";
 import type { ApplicationUpdate } from "@/types/applications/application.type";
-import type { Database } from "@/types/supabase/database.types";
 
 import {
   deleteApplication,
   getApplicationById,
   updateApplication,
 } from "@/server/applications";
-
-type AuthedSupabaseOk = {
-  supabase: SupabaseClient<Database>;
-  user: User;
-  error?: never;
-};
-
-type AuthedSupabaseErr = {
-  supabase?: never;
-  user?: never;
-  error: string;
-};
-
-type AuthedSupabaseResult = AuthedSupabaseOk | AuthedSupabaseErr;
-
-function isAuthedOk(
-  auth: AuthedSupabaseResult,
-): auth is AuthedSupabaseOk {
-  return "supabase" in auth && !!auth.supabase && "user" in auth && !!auth.user;
-}
-
-/**
- * Returns the Authorization bearer token from the request, if present.
- *
- * @param request - Incoming Request.
- * @returns Raw token string, or null.
- */
-function getBearerToken(request: Request): string | null {
-  const header = request.headers.get("authorization");
-  if (!header) return null;
-  const [scheme, token] = header.split(" ");
-  if (scheme?.toLowerCase() !== "bearer" || !token) return null;
-  return token;
-}
-
-/**
- * Resolves an authenticated Supabase client.
- *
- * Strategy:
- * 1) Prefer Bearer token (Postman / external clients)
- * 2) Fallback to cookie-based session (browser)
- *
- * @param request - Incoming Request.
- * @returns Authenticated client + user or an error.
- */
-async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult> {
-  const bearer = getBearerToken(request);
-
-  if (bearer) {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key =
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!url || !key) {
-      return { error: "Server missing Supabase env vars" };
-    }
-
-    const supabase = createSupabaseJsClient<Database>(url, key, {
-      auth: { persistSession: false },
-      global: { headers: { Authorization: `Bearer ${bearer}` } },
-    });
-    if (!supabase) {
-      return { error: "Failed to create Supabase client" };
-    }
-
-    const { data, error } = await supabase.auth.getUser();
-
-    if (error || !data.user) {
-      return { error: "Unauthorized" };
-    }
-
-    return { supabase, user: data.user };
-  }
-
-  const supabase = await createServerClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data.user) {
-    return { error: "Unauthorized" };
-  }
-
-  return { supabase, user: data.user };
-}
 
 /**
  * GET /api/applications/:id
@@ -126,13 +40,17 @@ export async function GET(
 ) {
   const { id } = await context.params;
 
-  const auth = await getAuthedSupabase(_request);
-  if (!isAuthedOk(auth)) {
-    return NextResponse.json({ error: auth.error }, { status: 401 });
+  let supabase;
+  let user;
+
+  try {
+    ({ supabase, user } = await requireAuthedSupabase(_request));
+  } catch {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const application = await getApplicationById(auth.supabase, auth.user.id, id);
+    const application = await getApplicationById(supabase, user.id, id);
 
     if (!application) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -160,9 +78,13 @@ export async function PATCH(
 ) {
   const { id } = await context.params;
 
-  const auth = await getAuthedSupabase(request);
-  if (!isAuthedOk(auth)) {
-    return NextResponse.json({ error: auth.error }, { status: 401 });
+  let supabase;
+  let user;
+
+  try {
+    ({ supabase, user } = await requireAuthedSupabase(request));
+  } catch {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   let body: unknown;
@@ -265,7 +187,7 @@ export async function PATCH(
   }
 
   try {
-    const updated = await updateApplication(auth.supabase, auth.user.id, id, patch);
+    const updated = await updateApplication(supabase, user.id, id, patch);
 
     if (!updated) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -291,13 +213,17 @@ export async function DELETE(
 ) {
   const { id } = await context.params;
 
-  const auth = await getAuthedSupabase(request);
-  if (!isAuthedOk(auth)) {
-    return NextResponse.json({ error: auth.error }, { status: 401 });
+  let supabase;
+  let user;
+
+  try {
+    ({ supabase, user } = await requireAuthedSupabase(request));
+  } catch {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const deleted = await deleteApplication(auth.supabase, auth.user.id, id);
+    const deleted = await deleteApplication(supabase, user.id, id);
 
     if (!deleted) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
