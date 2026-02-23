@@ -1108,7 +1108,27 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/applications/:id/contacts",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"applications",
+										":id",
+										"contacts"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{application_id_2}}"
+										}
+									]
+								}
 							},
 							"response": []
 						},
