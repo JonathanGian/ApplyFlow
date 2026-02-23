@@ -1207,7 +1207,7 @@
 							"response": [
 								{
 									"id": "52299906-04948976-1c3e-4e75-9577-d93e67fefe78",
-									"name": "Get One Contact Copy",
+									"name": "200",
 									"originalRequest": {
 										"method": "DELETE",
 										"header": [],
@@ -1269,6 +1269,71 @@
 									"cookie": [],
 									"responseTime": null,
 									"body": "{\n    \"contact\": {\n        \"id\": \"bbbbbbbb-0000-0000-0000-bbbbbbbb0000\",\n        \"application_id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n        \"name\": \"Bob Manager\",\n        \"email\": \"bob.manager@betallc.com\",\n        \"phone\": \"555-0111\",\n        \"linkedin_url\": \"https://linkedin.com/in/bob-mgr\",\n        \"role\": \"Hiring Manager\",\n        \"notes\": \"Main contact at Beta LLC\",\n        \"created_at\": \"2026-02-11T09:41:56.35099+00:00\"\n    }\n}"
+								},
+								{
+									"id": "52299906-8ede5f49-fabd-46ae-9737-5fb1f46397a1",
+									"name": "404",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/applications/:id/contacts/:contactId",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications",
+												":id",
+												"contacts",
+												":contactId"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{application_id_2}}"
+												},
+												{
+													"key": "contactId",
+													"value": "{{contact_id2}}"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 23 Feb 2026 14:43:29 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"error\": {\n        \"code\": \"NOT_FOUND\",\n        \"message\": \"Contact not found\"\n    }\n}"
 								}
 							]
 						},
@@ -1357,7 +1422,82 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"id": "52299906-d24e0650-2a71-4592-9765-2fa6688ee98a",
+									"name": "200",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Recruiter Name\",\n    \"email\": \"recruiter@company.com\",\n    \"phone\": 123456789,\n    \"linkedin_url\": \"www.example2.com\",\n    \"role\": \"Recruiter\",\n    \"notes\": \"None for now\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications/:applicationId/contacts/:contactId",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications",
+												":applicationId",
+												"contacts",
+												":contactId"
+											],
+											"variable": [
+												{
+													"key": "applicationId",
+													"value": "{{application_id_2}}"
+												},
+												{
+													"key": "contactId",
+													"value": "{{contact_id}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 23 Feb 2026 14:42:08 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"contact\": {\n        \"id\": \"15e0c610-248f-4942-a512-32feb66c95d7\",\n        \"application_id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n        \"name\": \"Recruiter Name\",\n        \"email\": \"recruiter@company.com\",\n        \"phone\": \"123456789\",\n        \"linkedin_url\": \"www.example2.com\",\n        \"role\": \"Recruiter\",\n        \"notes\": \"None for now\",\n        \"created_at\": \"2026-02-23T14:39:21.89853+00:00\"\n    }\n}"
+								}
+							]
 						}
 					],
 					"id": "52299906-a915ecac-7c9b-44c7-8774-a33073f2c1a6"
