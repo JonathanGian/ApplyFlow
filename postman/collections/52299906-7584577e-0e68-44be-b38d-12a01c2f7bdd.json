@@ -1101,7 +1101,7 @@
 					"name": "Contacts",
 					"item": [
 						{
-							"name": "Get All Contacts",
+							"name": "Get All Contacts For Application",
 							"id": "52299906-23039b26-bfee-47bf-96c9-07487acb3eac",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
