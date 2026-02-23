@@ -1098,8 +1098,21 @@
 					"id": "52299906-998d462a-cc83-4310-840c-2dd1c8d5bf67"
 				},
 				{
-					"name": "New Folder",
-					"item": [],
+					"name": "Contacts",
+					"item": [
+						{
+							"name": "Get All Contacts",
+							"id": "52299906-23039b26-bfee-47bf-96c9-07487acb3eac",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
 					"id": "52299906-a915ecac-7c9b-44c7-8774-a33073f2c1a6"
 				}
 			],
