@@ -981,6 +981,116 @@
 									"cookie": [],
 									"responseTime": null,
 									"body": "{\n    \"error\": \"Not found\"\n}"
+								},
+								{
+									"id": "52299906-58a0956b-8c20-4a45-aa53-2c0714077480",
+									"name": "405",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": \"Google Test\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}"
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications",
+												""
+											]
+										}
+									},
+									"status": "Method Not Allowed",
+									"code": 405,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 23 Feb 2026 12:19:33 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": null
+								},
+								{
+									"id": "52299906-ceb61338-d684-4f88-8620-2fe6bf625c55",
+									"name": "400",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"company\": \"Google Test\",\n  \"role_title\": \"Software Engineer\",\n  \"job_url\": \"https://careers.google.com/jobs/results/123\",\n  \"stage\": \"Applied\",\n  \"applied_at\": \"2026-02-11\",\n  \"next_follow_up_at\": \"2026-02-20\",\n  \"salary_min\": 70000,\n  \"salary_max\": 90000,\n  \"location\": \"Helsinki\",\n  \"remote_type\": \"Hybrid\",\n  \"notes\": \"Referral from friend\"\n}"
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications/{{application_id_2}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications",
+												"{{application_id_2}}"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 23 Feb 2026 12:20:04 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"error\": \"invalid input syntax for type uuid: \\\"f9c44040-f668-4c97-8b13-42abc3d0ff2\\\"\"\n}"
 								}
 							]
 						}
@@ -1168,6 +1278,13 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "application_id_2",
+			"value": "",
+			"type": "default"
 		}
 	]
 }
