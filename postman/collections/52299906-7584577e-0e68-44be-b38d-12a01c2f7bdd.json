@@ -1170,6 +1170,45 @@
 							"response": []
 						},
 						{
+							"name": "Get One Contact Copy",
+							"id": "52299906-0d40df8e-a2d8-41b3-98a3-732bd732ca4a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/applications/:id/contacts/:contactId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"applications",
+										":id",
+										"contacts",
+										":contactId"
+									],
+									"variable": [
+										{
+											"id": "9d48addb-b2cb-400e-9835-087d0e62394c",
+											"key": "id",
+											"value": "{{application_id_2}}"
+										},
+										{
+											"id": "509032cf-e947-4bf5-8465-cfaea84f6ada",
+											"key": "contactId",
+											"value": "{{contact_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create Contact",
 							"id": "52299906-2b5dea68-ee7f-4484-a6cd-cb61ac88f5f9",
 							"protocolProfileBehavior": {
