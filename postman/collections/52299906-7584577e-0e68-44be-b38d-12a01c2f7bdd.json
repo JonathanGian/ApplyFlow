@@ -1133,6 +1133,39 @@
 							"response": []
 						},
 						{
+							"name": "Get All Contacts For Application Copy",
+							"id": "52299906-1b905f16-efdc-4e44-91e6-ddbe33522f1c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/applications/:id/contacts",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"applications",
+										":id",
+										"contacts"
+									],
+									"variable": [
+										{
+											"id": "fe720e33-6489-46b3-9765-0082e4111d5c",
+											"key": "id",
+											"value": "{{application_id_2}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create Contact",
 							"id": "52299906-2b5dea68-ee7f-4484-a6cd-cb61ac88f5f9",
 							"protocolProfileBehavior": {
