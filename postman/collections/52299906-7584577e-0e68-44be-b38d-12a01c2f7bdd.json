@@ -1130,7 +1130,68 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"id": "52299906-615eca9f-c090-4d01-afcb-78cfec7ea2d8",
+									"name": "200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/applications/:id/contacts",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications",
+												":id",
+												"contacts"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{application_id_2}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 23 Feb 2026 14:42:49 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"contacts\": [\n        {\n            \"id\": \"15e0c610-248f-4942-a512-32feb66c95d7\",\n            \"application_id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n            \"name\": \"Recruiter Name\",\n            \"email\": \"recruiter@company.com\",\n            \"phone\": \"123456789\",\n            \"linkedin_url\": \"www.example2.com\",\n            \"role\": \"Recruiter\",\n            \"notes\": \"None for now\",\n            \"created_at\": \"2026-02-23T14:39:21.89853+00:00\"\n        },\n        {\n            \"id\": \"8c405215-ab37-4a5d-86b1-1b96c14cf5ab\",\n            \"application_id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n            \"name\": \"Recruiter Name\",\n            \"email\": \"recruiter@company.com\",\n            \"phone\": null,\n            \"linkedin_url\": \"www.example.com\",\n            \"role\": \"Recruiter\",\n            \"notes\": \"None for now\",\n            \"created_at\": \"2026-02-23T14:30:26.572699+00:00\"\n        },\n        {\n            \"id\": \"9e917fa5-a2c2-467f-9c79-a70f6e77c579\",\n            \"application_id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n            \"name\": \"Recruiter Name\",\n            \"email\": \"recruiter@company.com\",\n            \"phone\": null,\n            \"linkedin_url\": \"www.example.com\",\n            \"role\": \"Recruiter\",\n            \"notes\": \"None for now\",\n            \"created_at\": \"2026-02-23T14:30:10.507075+00:00\"\n        },\n        {\n            \"id\": \"bbbbbbbb-0000-0000-0000-bbbbbbbb0000\",\n            \"application_id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n            \"name\": \"Bob Manager\",\n            \"email\": \"bob.manager@betallc.com\",\n            \"phone\": \"555-0111\",\n            \"linkedin_url\": \"https://linkedin.com/in/bob-mgr\",\n            \"role\": \"Hiring Manager\",\n            \"notes\": \"Main contact at Beta LLC\",\n            \"created_at\": \"2026-02-11T09:41:56.35099+00:00\"\n        }\n    ],\n    \"page\": {\n        \"limit\": 25,\n        \"offset\": 0,\n        \"total\": 4\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Get One Contact",
@@ -1376,7 +1437,77 @@
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"id": "52299906-a95be4b1-c497-44f3-b171-9c366aa50aed",
+									"name": "201",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n        \"name\": \"Recruiter Name\",\n        \"email\": \"recruiter@company.com\",\n        \"phone\": 123456789,\n        \"linkedin_url\": \"www.example.com\",\n        \"role\": \"Recruiter\",\n        \"notes\": \"None for now\"\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/applications/:id/contacts",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"applications",
+												":id",
+												"contacts"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{application_id_2}}"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "vary",
+											"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 23 Feb 2026 14:39:21 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n    \"contact\": {\n        \"id\": \"15e0c610-248f-4942-a512-32feb66c95d7\",\n        \"application_id\": \"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb\",\n        \"name\": \"Recruiter Name\",\n        \"email\": \"recruiter@company.com\",\n        \"phone\": null,\n        \"linkedin_url\": \"www.example.com\",\n        \"role\": \"Recruiter\",\n        \"notes\": \"None for now\",\n        \"created_at\": \"2026-02-23T14:39:21.89853+00:00\"\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "Update Contact",
