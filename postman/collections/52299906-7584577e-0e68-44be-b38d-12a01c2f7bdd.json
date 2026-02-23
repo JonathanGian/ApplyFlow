@@ -1208,8 +1208,17 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "POST",
+								"method": "PATCH",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "http://localhost:3000/api/applications/:id/contacts",
 									"protocol": "http",
@@ -1225,7 +1234,6 @@
 									],
 									"variable": [
 										{
-											"id": "5997ac15-628f-433e-80a9-0011dbcb23c0",
 											"key": "id",
 											"value": ""
 										}
