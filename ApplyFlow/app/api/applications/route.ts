@@ -326,10 +326,7 @@ export async function POST(request: Request) {
   };
 
   try {
-    const application = await createApplication(supabase, user.id, {
-      ...insertPayload,
-      created_by: undefined as never,
-    });
+    const application = await createApplication(supabase, user.id, insertPayload);
 
     return NextResponse.json({ application }, { status: 201 });
   } catch (e) {
