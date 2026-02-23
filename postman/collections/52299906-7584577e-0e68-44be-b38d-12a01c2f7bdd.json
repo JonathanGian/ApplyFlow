@@ -1111,6 +1111,18 @@
 								"header": []
 							},
 							"response": []
+						},
+						{
+							"name": "Create Contact",
+							"id": "52299906-2b5dea68-ee7f-4484-a6cd-cb61ac88f5f9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "52299906-a915ecac-7c9b-44c7-8774-a33073f2c1a6"
