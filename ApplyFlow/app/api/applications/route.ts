@@ -17,10 +17,6 @@
  * - Uses allowlists for sorting
  */
 import { NextResponse } from "next/server";
-import { createClient as createServerClient } from "@/lib/supabase/server";
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "@/types/supabase/database.types";
-import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { isApplicationStage } from "@/types/applications/application.stage";
 import type { ApplicationStage } from "@/types/applications/application.stage";
 import type { ApplicationInsert } from "@/types/applications/application.type";
@@ -30,16 +26,10 @@ import {
   type ApplicationSortColumn,
   type SortDirection,
 } from "@/server/applications";
+import { requireAuthedSupabase } from "@/server/auth";
+
 const MAX_LIMIT = 100;
 const DEFAULT_LIMIT = 20;
-
-/**
- * Result type returned by getAuthedSupabase.
- * Ensures route handlers only execute when a user is authenticated.
- */
-type AuthedSupabaseResult =
-  | { supabase: SupabaseClient<Database>; user: User; error: null }
-  | { supabase: null; user: null; error: string };
 
 // Allowlist the only columns we permit clients to sort by.
 const ALLOWED_SORT_COLUMNS = new Set([
@@ -70,66 +60,6 @@ function asStage(value: string | null): ApplicationStage | null {
 }
 
 /**
- * Resolves an authenticated Supabase client.
- *
- * Strategy:
- * 1. Prefer Bearer token (useful for API testing / Postman)
- * 2. Fallback to cookie-based session (browser flow)
- *
- * Ensures all database queries run under the authenticated user's context.
- */
-async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult> {
-  // 1) Prefer Bearer token (useful for Postman/testing)
-  const authHeader = request.headers.get("authorization") ?? "";
-  const bearerMatch = authHeader.match(/^Bearer\s+(.+)$/i);
-  const accessToken = bearerMatch?.[1];
-
-  if (accessToken) {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-
-    if (!url || !key) {
-      return { supabase: null, user: null, error: "Server missing Supabase env" };
-    }
-
-    const supabase = createSupabaseClient<Database>(url, key);
-
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser(accessToken);
-
-    if (error || !user) {
-      return { supabase: null, user: null, error: "Unauthorized" };
-    }
-
-    // Ensure all DB queries run as this user
-    const authed = createSupabaseClient<Database>(url, key, {
-      global: {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    });
-
-    return { supabase: authed, user, error: null };
-  }
-
-  // 2) Fallback: cookie-based auth (normal browser app flow)
-  const supabase = await createServerClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error || !user) {
-    return { supabase: null, user: null, error: "Unauthorized" };
-  }
-
-  return { supabase, user, error: null };
-}
-
-/**
  * GET /api/applications
  *
  * @returns paginated list of applications for the authenticated user.
@@ -137,14 +67,16 @@ async function getAuthedSupabase(request: Request): Promise<AuthedSupabaseResult
  * @param request - Incoming request with query parameters.
  */
 export async function GET(request: Request) {
-  const auth = await getAuthedSupabase(request);
+  let supabase;
+  let user;
 
-  if (auth.error || !auth.supabase || !auth.user) {
+  try {
+    const auth = await requireAuthedSupabase(request);
+    supabase = auth.supabase;
+    user = auth.user;
+  } catch {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
-  const supabase = auth.supabase;
-  const user = auth.user;
 
   const { searchParams } = new URL(request.url);
 
@@ -217,14 +149,16 @@ export async function GET(request: Request) {
  * - applied_at
  */
 export async function POST(request: Request) {
-  const auth = await getAuthedSupabase(request);
+  let supabase;
+  let user;
 
-  if (auth.error || !auth.supabase || !auth.user) {
+  try {
+    const auth = await requireAuthedSupabase(request);
+    supabase = auth.supabase;
+    user = auth.user;
+  } catch {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
-  const supabase = auth.supabase;
-  const user = auth.user;
 
   let body: unknown;
 
