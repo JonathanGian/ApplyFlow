@@ -660,6 +660,18 @@
 									"body": "{\n    \"error\": \"Invalid JSON body\"\n}"
 								}
 							]
+						},
+						{
+							"name": "New Request",
+							"id": "52299906-9a26dbe0-c24b-4607-959b-bdde21715552",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "52299906-998d462a-cc83-4310-840c-2dd1c8d5bf67"
